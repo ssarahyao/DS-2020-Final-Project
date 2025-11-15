@@ -51,8 +51,9 @@ This structure allows us to perform analyses such as ranking fruits by cup-equiv
 First, we read in the CSV file for 2022.
 
 ```{r}
+library(tidyverse)
 
-#fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
+fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
 
 ```
 
