@@ -224,3 +224,11 @@ clean <- read_csv('fruit_2022_clean.csv')
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+### Question 1: Which fruits are most and least affordable per edible cup equivalent?
+
+### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
+
+### Question 3: What is the relationship between fruit yield and cup-equivalent price?
+
+### Question 4: Is there high variability across fruit types in price per cup?

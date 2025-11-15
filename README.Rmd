@@ -132,5 +132,39 @@ library(tidyverse)
 clean <- read_csv('fruit_2022_clean.csv')
 
 ```
+### Question 1: Which fruits are most and least affordable per edible cup equivalent?
+
+```{r}
+
+
+
+```
+
+
+### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
+
+```{r}
+
+
+
+```
+
+### Question 3: What is the relationship between fruit yield and cup-equivalent price?
+
+```{r}
+
+
+
+```
+
+### Question 4: Is there high variability across fruit types in price per cup?
+
+```{r}
+
+
+
+```
+
+
 
 
