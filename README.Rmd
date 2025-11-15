@@ -61,8 +61,8 @@ Inspect the first few rows and column names
 
 ```{r}
 
-#head(fruit_2022)
-#colnames(fruit_2022)
+head(fruit_2022)
+colnames(fruit_2022)
 
 ```
 
@@ -71,8 +71,8 @@ Variables: Fruit name, Form, Retail Price, Yield, Cup-Equivalent Price
 
 ```{r}
 
-#fruit_2022 <- fruit_2022 %>% 
-  #select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
+fruit_2022 <- fruit_2022 %>% 
+  select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
 
 
 ```
@@ -81,7 +81,7 @@ Check for missing values
 
 ```{r}
 
-#colSums(is.na(fruit_2022))
+colSums(is.na(fruit_2022))
 
 ```
 
@@ -89,9 +89,9 @@ Ensure numeric columns are correctly formatted
 
 ```{r}
 
-#fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
-#fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
-#fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
+fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
+fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
+fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
 
 ```
 
@@ -99,30 +99,38 @@ Check for duplicates
 
 ```{r}
 
-#sum(duplicated(fruit_2022))
+sum(duplicated(fruit_2022))
 
 ```
 
-Check for extreme outliers
-
-```{r}
-
-#boxplot(fruit_2022$CupEquivalentPrice, main="Cup-Equivalent Price Distribution", ylab="Price ($)")
-
-```
-
-Optional: Filter out any unreasonable extreme values (if necessary)
-
-```{r}
-
-#fruit_2022 <- fruit_2022 %>% filter(CupEquivalentPrice > 0 & CupEquivalentPrice < 10)
-
-```
-
-Save cleaned dataset for analysis
-
+Looks good! This dataset was pretty clean. We will save the cleaned dataset containing only the variables needed for this project to improve readability and make it easier to use in analysis.
 ``` {r}
 
-#write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
+write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
 
 ```
+
+### Variables
+
+Fruit: The name of the fruit item (e.g., Apples, Strawberries, Oranges).
+
+Form: The form in which the fruit is sold (Fresh, Frozen, Canned, Dried, or Juice).
+
+RetailPrice: The average retail price of the fruit per standard unit in U.S. dollars.
+
+Yield: The fraction of the fruit that is edible (e.g., 0.6 for 60% edible).
+
+CupEquivalentPrice: The cost of one edible cup-equivalent of the fruit in U.S. dollars, calculated using retail price and yield.
+
+
+## Results
+
+```{r}
+
+library(readr)
+library(tidyverse)
+clean <- read_csv('fruit_2022_clean.csv')
+
+```
+
+

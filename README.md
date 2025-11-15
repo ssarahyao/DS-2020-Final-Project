@@ -127,52 +127,100 @@ fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
 Inspect the first few rows and column names
 
 ``` r
-#head(fruit_2022)
-#colnames(fruit_2022)
+head(fruit_2022)
 ```
+
+    ## # A tibble: 6 × 8
+    ##   Fruit                Form  RetailPrice RetailPriceUnit Yield CupEquivalentSize
+    ##   <chr>                <chr>       <dbl> <chr>           <dbl>             <dbl>
+    ## 1 Apples               Fresh       1.85  per pound        0.9              0.242
+    ## 2 Apples, applesauce   Cann…       1.17  per pound        1                0.540
+    ## 3 Apples, ready-to-dr… Juice       0.870 per pint         1                8    
+    ## 4 Apples, frozen conc… Juice       0.609 per pint         1                8    
+    ## 5 Apricots             Fresh       3.62  per pound        0.93             0.364
+    ## 6 Apricots, packed in… Cann…       1.86  per pound        1                0.540
+    ## # ℹ 2 more variables: CupEquivalentUnit <chr>, CupEquivalentPrice <dbl>
+
+``` r
+colnames(fruit_2022)
+```
+
+    ## [1] "Fruit"              "Form"               "RetailPrice"       
+    ## [4] "RetailPriceUnit"    "Yield"              "CupEquivalentSize" 
+    ## [7] "CupEquivalentUnit"  "CupEquivalentPrice"
 
 Select only the relevant variables for analysis Variables: Fruit name,
 Form, Retail Price, Yield, Cup-Equivalent Price
 
 ``` r
-#fruit_2022 <- fruit_2022 %>% 
-  #select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
+fruit_2022 <- fruit_2022 %>% 
+  select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
 ```
 
 Check for missing values
 
 ``` r
-#colSums(is.na(fruit_2022))
+colSums(is.na(fruit_2022))
 ```
+
+    ##              Fruit               Form        RetailPrice              Yield 
+    ##                  0                  0                  0                  0 
+    ## CupEquivalentPrice 
+    ##                  0
 
 Ensure numeric columns are correctly formatted
 
 ``` r
-#fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
-#fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
-#fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
+fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
+fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
+fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
 ```
 
 Check for duplicates
 
 ``` r
-#sum(duplicated(fruit_2022))
+sum(duplicated(fruit_2022))
 ```
 
-Check for extreme outliers
+    ## [1] 0
+
+Looks good! This dataset was pretty clean. We will save the cleaned
+dataset containing only the variables needed for this project to improve
+readability and make it easier to use in analysis.
 
 ``` r
-#boxplot(fruit_2022$CupEquivalentPrice, main="Cup-Equivalent Price Distribution", ylab="Price ($)")
+write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
 ```
 
-Optional: Filter out any unreasonable extreme values (if necessary)
+### Variables
+
+Fruit: The name of the fruit item (e.g., Apples, Strawberries, Oranges).
+
+Form: The form in which the fruit is sold (Fresh, Frozen, Canned, Dried,
+or Juice).
+
+RetailPrice: The average retail price of the fruit per standard unit in
+U.S. dollars.
+
+Yield: The fraction of the fruit that is edible (e.g., 0.6 for 60%
+edible).
+
+CupEquivalentPrice: The cost of one edible cup-equivalent of the fruit
+in U.S. dollars, calculated using retail price and yield.
+
+## Results
 
 ``` r
-#fruit_2022 <- fruit_2022 %>% filter(CupEquivalentPrice > 0 & CupEquivalentPrice < 10)
+library(readr)
+library(tidyverse)
+clean <- read_csv('fruit_2022_clean.csv')
 ```
 
-Save cleaned dataset for analysis
-
-``` r
-#write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
-```
+    ## Rows: 62 Columns: 5
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Fruit, Form
+    ## dbl (3): RetailPrice, Yield, CupEquivalentPrice
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
