@@ -2,7 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-2025-11-14
+2025-11-15
 
 ## Introduction
 
@@ -213,7 +213,7 @@ in U.S. dollars, calculated using retail price and yield.
 ``` r
 library(readr)
 library(tidyverse)
-clean <- read_csv('fruit_2022_clean.csv')
+clean <- read_csv("fruit_2022_clean.csv")
 ```
 
     ## Rows: 62 Columns: 5
@@ -226,6 +226,155 @@ clean <- read_csv('fruit_2022_clean.csv')
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ### Question 1: Which fruits are most and least affordable per edible cup equivalent?
+
+To identify the most expensive fruits per edible cup equivalent, we will
+group fruits by their base names (for example, “Cherries” and “Cherries,
+packed in syrup or water” are grouped together) and calculate the
+average cup-equivalent price, ignoring the different forms for this
+analysis, as the goal is to identify the fruit itself.
+
+``` r
+library(dplyr)
+library(stringr)
+library(purrr)
+
+# Define your base fruits
+base_fruits <- c("Apples", "Apricots", "Bananas", "Berries", "Blackberries", 
+                 "Blueberries", "Cantaloupe", "Cherries", "Clementines", 
+                 "Cranberries", "Dates", "Figs", "Fruit cocktail", "Grapefruit", 
+                 "Grapes", "Honeydew", "Kiwi", "Mangoes", "Nectarines", "Oranges", 
+                 "Papaya", "Peaches", "Pears", "Pineapple", "Plum", "Pomegranate", 
+                 "Raspberries", "Strawberries")
+
+# Create a FacetGroup column based on matching base fruits
+clean <- clean %>%
+  mutate(FacetGroup = map_chr(Fruit, ~ {
+    matched <- base_fruits[str_detect(.x, base_fruits)]
+    if(length(matched) > 0) matched[1] else .x
+  }))
+
+# Compute average cup-equivalent price per base fruit
+clean_base <- clean %>%
+  group_by(FacetGroup) %>%
+  summarise(AvgPrice = mean(CupEquivalentPrice, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(AvgPrice)
+
+# Top 5 cheapest base fruits
+cheapest_fruits <- head(clean_base, 5)
+cheapest_fruits
+```
+
+    ## # A tibble: 5 × 2
+    ##   FacetGroup AvgPrice
+    ##   <chr>         <dbl>
+    ## 1 Watermelon    0.243
+    ## 2 Bananas       0.308
+    ## 3 Apples        0.468
+    ## 4 Cantaloupe    0.553
+    ## 5 Grapes        0.566
+
+``` r
+# Top 5 most expensive base fruits
+most_expensive_fruits <- tail(clean_base, 5) %>%
+  arrange(desc(AvgPrice))
+most_expensive_fruits
+```
+
+    ## # A tibble: 5 × 2
+    ##   FacetGroup   AvgPrice
+    ##   <chr>           <dbl>
+    ## 1 Cherries         2.64
+    ## 2 Raspberries      2.31
+    ## 3 Blackberries     1.92
+    ## 4 Pomegranate      1.57
+    ## 5 Berries          1.41
+
+Let’s visualize the data with a bar graph. The graph shows all fruits
+and their average cup-equivalent price, grouped by base fruit. Different
+forms of the same fruit are averaged together, so only one bar per base
+fruit is shown.
+
+``` r
+library(ggplot2)
+
+# Compute average price per base fruit
+avg_price <- clean %>%
+  group_by(FacetGroup) %>%
+  summarise(AvgPrice = mean(CupEquivalentPrice, na.rm = TRUE)) %>%
+  ungroup() %>%
+  arrange(AvgPrice)
+
+# Plot bar graph
+ggplot(avg_price, aes(x = reorder(FacetGroup, AvgPrice), y = AvgPrice)) +
+  geom_col(fill = "pink") +
+  geom_text(aes(label = round(AvgPrice, 2)), vjust = -0.5, size = 3) +
+  labs(
+    title = "Average Cup-Equivalent Price of Fruits by Base Fruit",
+    x = "Base Fruit",
+    y = "Average Price per Cup Equivalent ($)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 14, face = "bold")
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+Our graph confirms that, based on the average price per cup equivalent,
+watermelon is the cheapest fruit (~\$0.24), while cherries are the most
+expensive (~\$2.64).
+
+If we want to further examine the breakdown of different fruit forms,
+the graph below shows each form for all fruits.
+
+``` r
+library(stringr)
+
+# Define base fruits we care about
+base_fruits <- c("Apples", "Apricots", "Bananas", "Berries", "Blackberries", "Blueberries", "Cantaloupe", "Cherries", "Clementines", "Cranberries", "Dates", "Figs", "Fruit cocktail", "Grapefruit", "Grapes", "Honeydew", "Kiwi", "Mangoes", "Nectarines", "Oranges", "Papaya", "Peaches", "Pears", "Pineapple", "Plum", "Pomegranate", "Raspberries", "Strawberries")
+
+# Create a grouping column for faceting
+clean <- clean %>%
+  mutate(FacetGroup = map_chr(Fruit, ~ {
+    matched <- base_fruits[str_detect(.x, base_fruits)]
+    if(length(matched) > 0) matched[1] else .x
+  }))
+
+# Plot: facet by shared fruit group, keep original names on x-axis
+ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
+  geom_col() +
+  facet_wrap(~ FacetGroup, scales = "fixed") +   # fixed y-axis for all facets
+  geom_text(aes(label = round(CupEquivalentPrice, 2)),
+            position = position_stack(vjust = 0.5), size = 3) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_blank(),      
+    axis.ticks.x = element_blank(),
+    strip.text = element_text(size = 10, face = "bold"),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    legend.title = element_text(size = 11),
+    panel.spacing = unit(1, "lines")
+  ) +
+  labs(
+    title = "Cup-Equivalent Price by Form (Grouped by Base Fruit)",
+    x = "Fruit",
+    y = "Price per Cup Equivalent ($)"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- --> From this
+graph, we can see that even when considering different fruit forms,
+watermelon, which is only available fresh, remains the cheapest
+(~\$0.24), while canned cherries remain the most expensive (~\$3.56).
+
+Building on this, we can now analyze how fruit form affects the price
+per cup equivalent.
 
 ### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
 
