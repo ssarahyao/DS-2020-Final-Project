@@ -1,3 +1,9 @@
+Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
+Price Analysis
+================
+Sarah Yao, Isabel Lange
+2025-11-14
+
 ## Introduction
 
 The goal of this project is to analyze the affordability of fruits in
@@ -90,7 +96,9 @@ questions.
 
 First, we read in the CSV file for 2022.
 
-    library(tidyverse)
+``` r
+library(tidyverse)
+```
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -103,7 +111,9 @@ First, we read in the CSV file for 2022.
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
-    fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
+``` r
+fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
+```
 
     ## Rows: 62 Columns: 8
     ## ── Column specification ────────────────────────────────────────────────────────
@@ -116,37 +126,53 @@ First, we read in the CSV file for 2022.
 
 Inspect the first few rows and column names
 
-    #head(fruit_2022)
-    #colnames(fruit_2022)
+``` r
+#head(fruit_2022)
+#colnames(fruit_2022)
+```
 
 Select only the relevant variables for analysis Variables: Fruit name,
 Form, Retail Price, Yield, Cup-Equivalent Price
 
-    #fruit_2022 <- fruit_2022 %>% 
-      #select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
+``` r
+#fruit_2022 <- fruit_2022 %>% 
+  #select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
+```
 
 Check for missing values
 
-    #colSums(is.na(fruit_2022))
+``` r
+#colSums(is.na(fruit_2022))
+```
 
 Ensure numeric columns are correctly formatted
 
-    #fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
-    #fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
-    #fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
+``` r
+#fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
+#fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
+#fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
+```
 
 Check for duplicates
 
-    #sum(duplicated(fruit_2022))
+``` r
+#sum(duplicated(fruit_2022))
+```
 
 Check for extreme outliers
 
-    #boxplot(fruit_2022$CupEquivalentPrice, main="Cup-Equivalent Price Distribution", ylab="Price ($)")
+``` r
+#boxplot(fruit_2022$CupEquivalentPrice, main="Cup-Equivalent Price Distribution", ylab="Price ($)")
+```
 
 Optional: Filter out any unreasonable extreme values (if necessary)
 
-    #fruit_2022 <- fruit_2022 %>% filter(CupEquivalentPrice > 0 & CupEquivalentPrice < 10)
+``` r
+#fruit_2022 <- fruit_2022 %>% filter(CupEquivalentPrice > 0 & CupEquivalentPrice < 10)
+```
 
 Save cleaned dataset for analysis
 
-    #write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
+``` r
+#write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
+```

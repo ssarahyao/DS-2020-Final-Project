@@ -2,7 +2,7 @@
 title: "Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent Price Analysis"
 author: "Sarah Yao, Isabel Lange"
 date: "`r Sys.Date()`"
-output: md_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
