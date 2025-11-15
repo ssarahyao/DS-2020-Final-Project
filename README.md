@@ -325,8 +325,8 @@ ggplot(avg_price, aes(x = reorder(FacetGroup, AvgPrice), y = AvgPrice)) +
 ![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Our graph confirms that, based on the average price per cup equivalent,
-watermelon is the cheapest fruit (~\$0.24), while cherries are the most
-expensive (~\$2.64).
+watermelon is the cheapest fruit (\$0.24), while cherries are the most
+expensive (\$2.64).
 
 If we want to further examine the breakdown of different fruit forms,
 the graph below shows each form for all fruits.
@@ -371,7 +371,7 @@ ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
 ![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- --> From this
 graph, we can see that even when considering different fruit forms,
 watermelon, which is only available fresh, remains the cheapest
-(~\$0.24), while canned cherries remain the most expensive (~\$3.56).
+(\$0.24), while canned cherries remain the most expensive (\$3.56).
 
 Building on this, we can now analyze how fruit form affects the price
 per cup equivalent.
