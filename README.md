@@ -1,2 +1,152 @@
-# DS-2020-Final-Project
-Sarah Yao and Isabel Lange
+## Introduction
+
+The goal of this project is to analyze the affordability of fruits in
+the United States in 2022, focusing on their price per edible cup
+equivalent. Access to nutritious fruits is a key component of a healthy
+diet, yet prices vary widely depending on fruit type and form (fresh,
+frozen, canned, juice). Understanding which fruits are most and least
+affordable can help consumers make informed dietary choices and
+highlight potential areas for improving access to nutritious foods.
+
+In pursuit of the stated goal, we will explore the following questions:
+
+**1. Which fruits are most and least affordable per edible cup
+equivalent?**
+
+We will sort all fruits by cup-equivalent price and identify the top 5
+cheapest and most expensive fruits. A bar chart will visualize all
+fruits ranked by price, colored by fruit form, to contextualize
+affordability in terms of nutrition.
+
+**2. How does fruit form (fresh vs. processed) affect price per cup?**
+
+By grouping the data by form (Fresh, Canned, Frozen, Juice), we will
+compute mean, median, and standard deviation of cup-equivalent prices. A
+boxplot will compare price distributions across forms. This analysis
+will reveal whether fresh fruits tend to be cheaper or more expensive
+than processed forms.
+
+**3. What is the relationship between fruit yield and cup-equivalent
+price?**
+
+We will calculate the correlation between yield and cup-equivalent
+price, fit a linear regression model, and plot a scatterplot with a
+regression line. This will allow us to determine whether higher-yield
+fruits tend to be more affordable.
+
+**4. Is there high variability across fruit types in price per cup?**
+
+Summary statistics including variance, standard deviation, range, and
+interquartile range will quantify price variability. A histogram will
+visualize the spread, highlighting where most fruit prices cluster. This
+analysis will provide insights into consumer access and price stability
+across fruit categories.
+
+Through the completion of this project, we aim to identify patterns in
+fruit affordability across the U.S. in 2022 and provide meaningful
+conclusions regarding the accessibility of nutritious foods for
+consumers.
+
+## Data
+
+### Structure
+
+The link to the dataset is
+<https://www.ers.usda.gov/data-products/fruit-and-vegetable-prices> .
+The USDA Economic Research Service (ERS) website provides datasets
+containing average retail prices of fruits and vegetables in the U.S.
+for selected years (2013, 2016, 2020, 2022). Each dataset contains
+multiple tables with price data for fresh, frozen, canned, and juice
+forms of fruits and vegetables. For each fruit item, information
+includes retail price, yield, and cost per cup-equivalent. The datasets
+are compiled from retail scanner data provided by Circana/IRI across a
+variety of store types.
+
+For this project, we are analyzing the dataset titled “ALL FRUITS –
+Average Prices” for the year 2022. This table contains 62 fruit items
+with data on retail price, yield, and cup-equivalent cost. Focusing on
+2022 ensures that the data is recent, consistent in reporting methods,
+and allows us to study the current affordability of fruits in terms of
+nutrition-relevant units.
+
+The dataset includes multiple forms of each fruit—fresh, canned, frozen,
+and juice. To manage the dataset and focus on meaningful analysis, we
+will include all 62 fruits but retain key variables: fruit name, form,
+retail price, yield, and cup-equivalent price. These variables provide
+enough information to analyze affordability, variability, and the
+relationship between fruit form and price. The dataset structure is as
+follows: each row corresponds to a unique fruit item in a specific form.
+The retail price column contains the average price in dollars, the yield
+column gives the fraction edible, and the cup-equivalent price column
+represents the cost per nutrition-relevant serving.
+
+This structure allows us to perform analyses such as ranking fruits by
+cup-equivalent price, comparing prices across fruit forms, exploring
+correlations with yield, and quantifying variability across fruit types,
+while keeping the dataset manageable and focused on the core research
+questions.
+
+### Cleaning
+
+First, we read in the CSV file for 2022.
+
+    library(tidyverse)
+
+    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+    ## ✔ forcats   1.0.1     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+    ## ✔ purrr     1.1.0     
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ✖ dplyr::filter() masks stats::filter()
+    ## ✖ dplyr::lag()    masks stats::lag()
+    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+
+    fruit_2022 <- read_csv("Fruit-Prices-2022.csv")
+
+    ## Rows: 62 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (4): Fruit, Form, RetailPriceUnit, CupEquivalentUnit
+    ## dbl (4): RetailPrice, Yield, CupEquivalentSize, CupEquivalentPrice
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+Inspect the first few rows and column names
+
+    #head(fruit_2022)
+    #colnames(fruit_2022)
+
+Select only the relevant variables for analysis Variables: Fruit name,
+Form, Retail Price, Yield, Cup-Equivalent Price
+
+    #fruit_2022 <- fruit_2022 %>% 
+      #select(Fruit, Form, RetailPrice, Yield, CupEquivalentPrice)
+
+Check for missing values
+
+    #colSums(is.na(fruit_2022))
+
+Ensure numeric columns are correctly formatted
+
+    #fruit_2022$RetailPrice <- as.numeric(fruit_2022$RetailPrice)
+    #fruit_2022$Yield <- as.numeric(fruit_2022$Yield)
+    #fruit_2022$CupEquivalentPrice <- as.numeric(fruit_2022$CupEquivalentPrice)
+
+Check for duplicates
+
+    #sum(duplicated(fruit_2022))
+
+Check for extreme outliers
+
+    #boxplot(fruit_2022$CupEquivalentPrice, main="Cup-Equivalent Price Distribution", ylab="Price ($)")
+
+Optional: Filter out any unreasonable extreme values (if necessary)
+
+    #fruit_2022 <- fruit_2022 %>% filter(CupEquivalentPrice > 0 & CupEquivalentPrice < 10)
+
+Save cleaned dataset for analysis
+
+    #write.csv(fruit_2022, "fruit_2022_clean.csv", row.names = FALSE)
