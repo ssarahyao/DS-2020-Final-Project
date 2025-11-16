@@ -62,8 +62,8 @@ The link to the dataset is
 The USDA Economic Research Service (ERS) website provides datasets
 containing average retail prices of fruits and vegetables in the U.S.
 for selected years (2013, 2016, 2020, 2022). Each dataset contains
-multiple tables with price data for fresh, frozen, canned, and juice
-forms of fruits and vegetables. For each fruit item, information
+multiple tables with price data for fresh, dried, frozen, canned, and
+juice forms of fruits and vegetables. For each fruit item, information
 includes retail price, yield, and cost per cup-equivalent. The datasets
 are compiled from retail scanner data provided by Circana/IRI across a
 variety of store types.
