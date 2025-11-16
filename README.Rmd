@@ -2,7 +2,7 @@
 title: "Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent Price Analysis"
 author: "Sarah Yao, Isabel Lange"
 date: "`r Sys.Date()`"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -38,7 +38,7 @@ Through the completion of this project, we aim to identify patterns in fruit aff
 ### Structure
 
 The link to the dataset is https://www.ers.usda.gov/data-products/fruit-and-vegetable-prices
-. The USDA Economic Research Service (ERS) website provides datasets containing average retail prices of fruits and vegetables in the U.S. for selected years (2013, 2016, 2020, 2022). Each dataset contains multiple tables with price data for fresh, frozen, canned, and juice forms of fruits and vegetables. For each fruit item, information includes retail price, yield, and cost per cup-equivalent. The datasets are compiled from retail scanner data provided by Circana/IRI across a variety of store types.
+. The USDA Economic Research Service (ERS) website provides datasets containing average retail prices of fruits and vegetables in the U.S. for selected years (2013, 2016, 2020, 2022). Each dataset contains multiple tables with price data for fresh, dried, frozen, canned, and juice forms of fruits and vegetables. For each fruit item, information includes retail price, yield, and cost per cup-equivalent. The datasets are compiled from retail scanner data provided by Circana/IRI across a variety of store types.
 
 For this project, we are analyzing the dataset titled “ALL FRUITS – Average Prices” for the year 2022. This table contains 62 fruit items with data on retail price, yield, and cup-equivalent cost. Focusing on 2022 ensures that the data is recent, consistent in reporting methods, and allows us to study the current affordability of fruits in terms of nutrition-relevant units.
 
