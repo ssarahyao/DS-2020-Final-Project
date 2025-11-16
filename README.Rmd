@@ -21,7 +21,7 @@ We will sort all fruits by cup-equivalent price and identify the top 5 cheapest 
 
 **2. How does fruit form (fresh vs. processed) affect price per cup?**
 
-By grouping the data by form (Fresh, Canned, Frozen, Juice), we will compute mean, median, and standard deviation of cup-equivalent prices. A boxplot will compare price distributions across forms. This analysis will reveal whether fresh fruits tend to be cheaper or more expensive than processed forms.
+By grouping the data by form (Fresh, Dried, Canned, Frozen, Juice), we will compute mean, median, and standard deviation of cup-equivalent prices. A boxplot will compare price distributions across forms. This analysis will reveal whether fresh fruits tend to be cheaper or more expensive than processed forms.
 
 **3. What is the relationship between fruit yield and cup-equivalent price?**
 
@@ -204,7 +204,9 @@ ggplot(avg_price, aes(x = reorder(FacetGroup, AvgPrice), y = AvgPrice)) +
 
 ```
 
-Our graph confirms that, based on the average price per cup equivalent, watermelon is the cheapest fruit ($0.24), while cherries are the most expensive ($2.64).
+Our graph confirms that, based on the average price per cup equivalent, watermelon is the cheapest fruit at only $0.24, while cherries are the most expensive at $2.64. 
+
+Watermelon’s low cost makes sense because it is grown in large quantities, has a high water content, and is relatively inexpensive to harvest and transport during peak season. In contrast, cherries are labor intensive to grow and pick, have a short harvest window, and require careful handling to avoid bruising, all of which raise their price. Additionally, cherries are often more sensitive to weather and have higher risks of crop loss, further increasing costs. These differences in production, labor demands, and seasonal availability help explain why watermelon remains the most affordable fruit per cup equivalent, while cherries are the most expensive.
 
 If we want to further examine the breakdown of different fruit forms, the graph below shows each form for all fruits.
 
@@ -251,11 +253,43 @@ Building on this, we can now analyze how fruit form affects the price per cup eq
 
 ### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
 
+To examine the price distribution of fruits across their different forms, we group the data by fruit form and compute the mean, median, and standard deviation of cup-equivalent prices. The boxplot below visualizes how fresh fruits compare with processed forms such as canned, frozen, and juice.
+
 ```{r}
 
+# Summary statistics by fruit form
+form_summary <- clean %>%
+  group_by(Form) %>%
+  summarise(
+    MeanPrice   = mean(CupEquivalentPrice, na.rm = TRUE),
+    MedianPrice = median(CupEquivalentPrice, na.rm = TRUE),
+    SDPrice     = sd(CupEquivalentPrice, na.rm = TRUE),
+    Count       = n()
+  ) %>%
+  arrange(MeanPrice)
 
+form_summary
+
+# Boxplot comparing price distributions across forms
+ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
+  geom_boxplot(outlier.alpha = 0.6) +
+  labs(
+    title = "Price per Cup Equivalent by Fruit Form",
+    x = "Fruit Form",
+    y = "Cup-Equivalent Price ($)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 30, hjust = 1, size = 10),
+    plot.title = element_text(size = 14, face = "bold")
+  ) +
+  guides(fill = "none")
 
 ```
+
+The boxplot reveals clear differences in price per cup equivalent across fruit forms. 
+
+Juice is the least expensive overall, with a tight distribution and no extreme outliers, likely because juice production benefits from large-scale manufacturing, blending, and dilution, which lower the cost per edible cup. In contrast, frozen fruit shows the highest median price and a wider spread, indicating greater variability in production and storage costs. This is interesting because we originally predicted that fresh fruit would be the most expensive. However, further research revealed that frozen fruits require additional processing steps such as washing, cutting, and flash-freezing, as well as energy-intensive cold storage and transportation, all of which increase cost. Fresh fruits remain relatively moderate in price, and the outlier in this category likely reflects specialty produce—fruits that are highly perishable, seasonal, or labor-intensive. Canned fruits sit in the middle, but the presence of a high outlier suggests that certain canned varieties can be significantly more expensive due to added sugars, packaging differences, or supply limitations. Overall, the variability and outliers across forms highlight how processing intensity, storage methods, and supply-chain complexity shape the cost of a single cup-equivalent of fruit.
 
 ### Question 3: What is the relationship between fruit yield and cup-equivalent price?
 
