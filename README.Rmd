@@ -270,6 +270,12 @@ form_summary <- clean %>%
 
 form_summary
 
+```
+
+From this table, we see that when comparing mean and median cup-equivalent prices, juice is the cheapest fruit form, while frozen fruit is the most expensive. A chart below will help further illustrate this pattern for analysis.
+
+```{r}
+
 # Boxplot comparing price distributions across forms
 ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
   geom_boxplot(outlier.alpha = 0.6) +

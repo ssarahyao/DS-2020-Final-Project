@@ -419,6 +419,11 @@ form_summary
     ## 4 Canned     1.39        1.25    0.727    12
     ## 5 Frozen     1.43        1.34    0.342     6
 
+From this table, we see that when comparing mean and median
+cup-equivalent prices, juice is the cheapest fruit form, while frozen
+fruit is the most expensive. A chart below will help further illustrate
+this pattern for analysis.
+
 ``` r
 # Boxplot comparing price distributions across forms
 ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
@@ -436,7 +441,7 @@ ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
   guides(fill = "none")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The boxplot reveals clear differences in price per cup equivalent across
 fruit forms.
