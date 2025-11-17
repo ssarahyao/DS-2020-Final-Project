@@ -300,7 +300,7 @@ Juice is the least expensive overall, with a tight distribution and no extreme o
 ### Question 3: What is the relationship between fruit yield and cup-equivalent price?
 
 ```{r}
-
+test
 
 
 ```
