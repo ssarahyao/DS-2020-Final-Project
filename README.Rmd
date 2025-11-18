@@ -47,19 +47,6 @@ The dataset includes multiple forms of each fruit—fresh, canned, frozen, and j
 This structure allows us to perform analyses such as ranking fruits by cup-equivalent price, comparing prices across fruit forms, exploring correlations with yield, and quantifying variability across fruit types, while keeping the dataset manageable and focused on the core research questions.
 
 
-
-##Conclusion
-In conclusion, our analysis of fruit affordability in the US over the course of 2022 has shed light on several critical factors influencing one's purchasing decisions for in pursuit of a healthy lifestyle. The most common theme throughout or analysis was that we, like many, had severe misconceptions on the reality of how expensive differnt fruit products are. For example, watermelon, a seasonally exclusive fruit was least expensive. Also, fresh fruit was not the most expensive fruit form(frozen was). This implies that consumers must keep in mind that... With this result, we can encourage consumers to purchase fruit juices/watermelon, bananas, or apples when considering the most affordable fruit products.
-
-Further research on correlations between different fruit product variables can prove that...
-
-With further analysis, it would be interesting to examine how fruit prices change throughout harvest seasons of different fruits. We did not analyze the date of fruits purchased, so it would be something we use to determine if there are changes/want changes in affordability of different fruits throughout the seasons.
-
-
-
-
-
-
 ### Cleaning 
 
 First, we read in the CSV file for 2022.
@@ -394,6 +381,11 @@ There is low variability evident in the histogram and density graph. The graph i
 
 
 
-
 ##Conclusion
-In conclusion, out analysis of fruit
+In conclusion, our analysis of fruit affordability in the US over the course of 2022 has shed light on several critical factors influencing one's purchasing decisions in pursuit of a healthy lifestyle. The most common theme throughout our analysis was that we, like many, had severe misconceptions on the reality of how expensive different fruit products are. For example, watermelon(a seasonally exclusive fruit) was least expensive. Also, fresh fruit was not the most expensive fruit form: frozen was. This implies that consumers must keep in mind different froms of fruit and the types when considering which are most affordable. With this result, we can encourage consumers to purchase fruit juices/watermelon, bananas, or apples when considering the most affordable fruit products.
+
+However, we found that fruit yield did not influence the cup equivelance price. So, yield should not play a part in comparing which fruit is more affordable than the other.
+
+With further analysis, it would be interesting to examine how fruit prices change throughout harvest seasons of different fruits. We did not analyze the date of fruits purchased, so it would be something we use to determine if there are changes/want changes in affordability of different fruits throughout the seasons.
+
+
