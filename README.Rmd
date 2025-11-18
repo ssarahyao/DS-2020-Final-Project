@@ -300,17 +300,76 @@ Juice is the least expensive overall, with a tight distribution and no extreme o
 ### Question 3: What is the relationship between fruit yield and cup-equivalent price?
 
 ```{r}
-test
+#correlation between yield and cup-equivilance price
+correlation <- cor(clean$Yield, clean$CupEquivalentPrice, use = "complete.obs")
+correlation
+```
+The correlation between the two variables is -0.0469. Since they have a negative relationship, it means as yield increases, price per cup tends to go down. Therefor, higher-yield fruits are more affordable. Although, the number indicates that the correlation is weak.
 
+```{r}
+#linear regression model
+model <- lm(CupEquivalentPrice ~ Yield, data = clean)
+summary(model)
+#where is the slope in this? How can I tell?
+```
+The slope we found was -0.1551. This also proves that the higher the yield, the more affordable the fruit gets.While correlation only shows the relationship, regression models involves prediction testing. The model predicts that the cup-equivilance price will decrease by $0.16 every one unit decrease in fruit. However, based on the p-value of 0.7172 and R-squared of 22%, which is means there is little-to-no evidence that our predictions would would have any significance.
+
+
+```{r}
+library(ggplot2)
+
+#Scatterplot of the two variables, containing a regression line
+ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE, color = "red", linewidth = 1) +
+  labs(
+    title = "Relationship Between Fruit Yield and Cup-Equivalent Price",
+    x = "Yield (fraction edible)",
+    y = "Cup-Equivalent Price ($)"
+  )
 
 ```
+The graph above supports our residual and correlation testing, showing that there is lots of variation. We can conclude with restating that there is a very wak relationship between yield and and cup-equivilance price. 
+
 
 ### Question 4: Is there high variability across fruit types in price per cup?
 
 ```{r}
+#Summary Statistics
+variance <- var(clean$CupEquivalentPrice, na.rm = TRUE)
+std_dev  <- sd(clean$CupEquivalentPrice, na.rm = TRUE)
+range_vals <- range(clean$CupEquivalentPrice, na.rm = TRUE)
+iqr_val <- IQR(clean$CupEquivalentPrice, na.rm = TRUE)
+
+list(
+  variance = variance,
+  standard_deviation = std_dev,
+  range = range_vals,
+  IQR = iqr_val
+)
+```
 
 
+```{r}
+library(ggplot2)
 
+#Histogram
+ggplot(clean, aes(x = CupEquivalentPrice)) +
+  geom_histogram(bins = 15, fill = "blue", color = "black") +
+  labs(
+    title = "Distribution of Fruit Prices per Cup",
+    x = "Cup-Equivalent Price ($)",
+    y = "Count"
+  )
+
+#Density Plot
+ggplot(clean, aes(x = CupEquivalentPrice)) +
+  geom_density(fill = "green", alpha = 0.5) +
+  labs(
+    title = "Density of Fruit Cup-Equivalent Prices",
+    x = "Cup-Equivalent Price ($)",
+    y = "Density"
+  )
 ```
 
 

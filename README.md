@@ -2,7 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-2025-11-16
+2025-11-18
 
 ## Introduction
 
@@ -102,8 +102,8 @@ library(tidyverse)
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.1     ✔ stringr   1.5.1
-    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
     ## ✔ purrr     1.1.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -468,4 +468,119 @@ fruit.
 
 ### Question 3: What is the relationship between fruit yield and cup-equivalent price?
 
+``` r
+#correlation between yield and cup-equivilance price
+correlation <- cor(clean$Yield, clean$CupEquivalentPrice, use = "complete.obs")
+correlation
+```
+
+    ## [1] -0.04692752
+
+The correlation between the two variables is -0.0469. Since they have a
+negative relationship, it means as yield increases, price per cup tends
+to go down. Therefor, higher-yield fruits are more affordable. Although,
+the number indicates that the correlation is weak.
+
+``` r
+#linear regression model
+model <- lm(CupEquivalentPrice ~ Yield, data = clean)
+summary(model)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = CupEquivalentPrice ~ Yield, data = clean)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -0.87739 -0.41827 -0.04225  0.24663  2.45567 
+    ## 
+    ## Coefficients:
+    ##             Estimate Std. Error t value Pr(>|t|)   
+    ## (Intercept)   1.2009     0.3807   3.155  0.00251 **
+    ## Yield        -0.1551     0.4262  -0.364  0.71721   
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 0.5825 on 60 degrees of freedom
+    ## Multiple R-squared:  0.002202,   Adjusted R-squared:  -0.01443 
+    ## F-statistic: 0.1324 on 1 and 60 DF,  p-value: 0.7172
+
+``` r
+#where is the slope in this? How can I tell?
+```
+
+``` r
+library(ggplot2)
+
+#Scatterplot of the two variables, containing a regression line
+ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE, color = "red", linewidth = 1) +
+  labs(
+    title = "Relationship Between Fruit Yield and Cup-Equivalent Price",
+    x = "Yield (fraction edible)",
+    y = "Cup-Equivalent Price ($)"
+  )
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
 ### Question 4: Is there high variability across fruit types in price per cup?
+
+``` r
+#Summary Statistics
+variance <- var(clean$CupEquivalentPrice, na.rm = TRUE)
+std_dev  <- sd(clean$CupEquivalentPrice, na.rm = TRUE)
+range_vals <- range(clean$CupEquivalentPrice, na.rm = TRUE)
+iqr_val <- IQR(clean$CupEquivalentPrice, na.rm = TRUE)
+
+list(
+  variance = variance,
+  standard_deviation = std_dev,
+  range = range_vals,
+  IQR = iqr_val
+)
+```
+
+    ## $variance
+    ## [1] 0.3344598
+    ## 
+    ## $standard_deviation
+    ## [1] 0.578325
+    ## 
+    ## $range
+    ## [1] 0.2429 3.5558
+    ## 
+    ## $IQR
+    ## [1] 0.714175
+
+``` r
+library(ggplot2)
+
+#Histogram
+ggplot(clean, aes(x = CupEquivalentPrice)) +
+  geom_histogram(bins = 15, fill = "blue", color = "black") +
+  labs(
+    title = "Distribution of Fruit Prices per Cup",
+    x = "Cup-Equivalent Price ($)",
+    y = "Count"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+#Density Plot
+ggplot(clean, aes(x = CupEquivalentPrice)) +
+  geom_density(fill = "green", alpha = 0.5) +
+  labs(
+    title = "Density of Fruit Cup-Equivalent Prices",
+    x = "Cup-Equivalent Price ($)",
+    y = "Density"
+  )
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->
