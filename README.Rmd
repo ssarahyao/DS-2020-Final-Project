@@ -329,7 +329,7 @@ ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
   )
 
 ```
-The graph above supports our residual and correlation testing, showing that there is lots of variation. We can conclude with restating that there is a very wak relationship between yield and and cup-equivilance price. 
+The graph above supports our residual and correlation testing, showing that there is lots of variation. We can conclude with restating that there is a very weak relationship between yield and and cup-equivilance price. 
 
 
 ### Question 4: Is there high variability across fruit types in price per cup?
@@ -348,7 +348,7 @@ list(
   IQR = iqr_val
 )
 ```
-
+The standard deviation is 0.578, showing that there is little spread because it is close to 0. The variance is 0.334, also indicating that there is little spread. 
 
 ```{r}
 library(ggplot2)
@@ -370,8 +370,13 @@ ggplot(clean, aes(x = CupEquivalentPrice)) +
     x = "Cup-Equivalent Price ($)",
     y = "Density"
   )
-```
 
+#Histogram
+ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
+  geom_boxplot() + 
+  coord_flip()
+```
+There is low variability evident in the histogram and density graph. The graph is slightly bimodal and has three outliers. Here, most fruits cluster from 0.2-1.75. Although, there is a longer tail. This could indicate that consumers have different price access depending on the fruit. To get more specific, in the box and whisker plot above, we can see that blackberries, raspberries, blueberries, and apercots are the most expensive.
 
 
 
