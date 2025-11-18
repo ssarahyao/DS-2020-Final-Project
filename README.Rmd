@@ -46,6 +46,20 @@ The dataset includes multiple forms of each fruit—fresh, canned, frozen, and j
 
 This structure allows us to perform analyses such as ranking fruits by cup-equivalent price, comparing prices across fruit forms, exploring correlations with yield, and quantifying variability across fruit types, while keeping the dataset manageable and focused on the core research questions.
 
+
+
+##Conclusion
+In conclusion, our analysis of fruit affordability in the US over the course of 2022 has shed light on several critical factors influencing one's purchasing decisions for in pursuit of a healthy lifestyle. The most common theme throughout or analysis was that we, like many, had severe misconceptions on the reality of how expensive differnt fruit products are. For example, watermelon, a seasonally exclusive fruit was least expensive. Also, fresh fruit was not the most expensive fruit form(frozen was). This implies that consumers must keep in mind that... With this result, we can encourage consumers to purchase fruit juices/watermelon, bananas, or apples when considering the most affordable fruit products.
+
+Further research on correlations between different fruit product variables can prove that...
+
+With further analysis, it would be interesting to examine how fruit prices change throughout harvest seasons of different fruits. We did not analyze the date of fruits purchased, so it would be something we use to determine if there are changes/want changes in affordability of different fruits throughout the seasons.
+
+
+
+
+
+
 ### Cleaning 
 
 First, we read in the CSV file for 2022.
@@ -376,7 +390,10 @@ ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
   geom_boxplot() + 
   coord_flip()
 ```
-There is low variability evident in the histogram and density graph. The graph is slightly bimodal and has three outliers. Here, most fruits cluster from 0.2-1.75. Although, there is a longer tail. This could indicate that consumers have different price access depending on the fruit. To get more specific, in the box and whisker plot above, we can see that blackberries, raspberries, blueberries, and apercots are the most expensive.
+There is low variability evident in the histogram and density graph. The graph is slightly bimodal and has three outliers. Here, most fruits cluster from 0.2-1.75. Although, there is a longer tail. This could indicate that consumers have different price access depending on the fruit. To get more specific, in the box and whisker plot above, we can see that blackberries, raspberries, blueberries, and apercots are the most expensive. Also, the graph shows that there are lots of outliers within each fruit category, this articulates the high variability?
 
 
 
+
+##Conclusion
+In conclusion, out analysis of fruit
