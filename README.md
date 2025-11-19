@@ -2,7 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-2025-11-18
+2025-11-19
 
 ## Introduction
 
@@ -102,8 +102,8 @@ library(tidyverse)
 
     ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
     ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-    ## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+    ## ✔ forcats   1.0.1     ✔ stringr   1.5.1
+    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
     ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
     ## ✔ purrr     1.1.0     
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -510,6 +510,14 @@ summary(model)
 #where is the slope in this? How can I tell?
 ```
 
+The slope we found was -0.1551. This also proves that the higher the
+yield, the more affordable the fruit gets.While correlation only shows
+the relationship, regression models involves prediction testing. The
+model predicts that the cup-equivilance price will decrease by \$0.16
+every one unit decrease in fruit. However, based on the p-value of
+0.7172 and R-squared of 22%, which is means there is little-to-no
+evidence that our predictions would would have any significance.
+
 ``` r
 library(ggplot2)
 
@@ -527,6 +535,12 @@ ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
     ## `geom_smooth()` using formula = 'y ~ x'
 
 ![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+The correlation between the two variables is -0.0469. This negative
+relationship suggests that as yield increases, the price per cup tends
+to decrease, meaning higher-yield fruits are generally more affordable.
+However, the magnitude of the correlation is very small, indicating that
+the relationship is weak.
 
 ### Question 4: Is there high variability across fruit types in price per cup?
 
@@ -557,6 +571,13 @@ list(
     ## $IQR
     ## [1] 0.714175
 
+The summary statistics for price per cup show that fruit prices vary
+moderately. The variance is 0.334 and the standard deviation is 0.578,
+indicating some spread around the average price. Prices range from
+\$0.24 to \$3.56 per cup, with an interquartile range of 0.714, meaning
+the middle 50% of prices are relatively close together, though a few
+higher-priced fruits increase the overall range.
+
 ``` r
 library(ggplot2)
 
@@ -584,3 +605,44 @@ ggplot(clean, aes(x = CupEquivalentPrice)) +
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->
+
+``` r
+#Histogram
+ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
+  geom_boxplot() + 
+  coord_flip()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-3.png)<!-- --> There is low
+variability evident in the histogram and density graph. The graph is
+slightly bimodal and has three outliers. Here, most fruits cluster from
+0.2-1.75. Although, there is a longer tail. This could indicate that
+consumers have different price access depending on the fruit. To get
+more specific, in the box and whisker plot above, we can see that
+blackberries, raspberries, blueberries, and apercots are the most
+expensive. Also, the graph shows that there are lots of outliers within
+each fruit category, this articulates the high variability?
+
+## Conclusion
+
+In conclusion, our analysis of fruit affordability in the United States
+during 2022 highlights several important insights for consumers aiming
+to maintain a healthy diet on a budget. A key finding is that many
+common assumptions about fruit prices are inaccurate. For example,
+watermelon, often perceived as a seasonal luxury, was actually among the
+least expensive fruits. Similarly, fresh fruit was not always the most
+costly, as frozen fruit often carried a higher price per cup. These
+results emphasize the importance of considering both the type and form
+of fruit when evaluating affordability. Based on our findings, fruits
+such as watermelon, bananas, apples, and certain fruit juices are among
+the most budget-friendly options.
+
+Interestingly, we found that fruit yield did not significantly affect
+the price per cup, suggesting that yield is not a reliable factor when
+comparing affordability across fruits.
+
+Future analyses could explore how fruit prices fluctuate across harvest
+seasons, as we did not account for the purchase date in this study.
+Examining seasonal trends could provide further insight into how
+consumers can maximize affordability while maintaining a nutritious
+diet.

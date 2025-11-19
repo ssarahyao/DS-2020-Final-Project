@@ -330,8 +330,8 @@ ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
   )
 
 ```
-The graph above supports our residual and correlation testing, showing that there is lots of variation. We can conclude with restating that there is a very weak relationship between yield and and cup-equivilance price. 
 
+The correlation between the two variables is -0.0469. This negative relationship suggests that as yield increases, the price per cup tends to decrease, meaning higher-yield fruits are generally more affordable. However, the magnitude of the correlation is very small, indicating that the relationship is weak.
 
 ### Question 4: Is there high variability across fruit types in price per cup?
 
@@ -349,7 +349,8 @@ list(
   IQR = iqr_val
 )
 ```
-The standard deviation is 0.578, showing that there is little spread because it is close to 0. The variance is 0.334, also indicating that there is little spread. 
+
+The summary statistics for price per cup show that fruit prices vary moderately. The variance is 0.334 and the standard deviation is 0.578, indicating some spread around the average price. Prices range from $0.24 to $3.56 per cup, with an interquartile range of 0.714, meaning the middle 50% of prices are relatively close together, though a few higher-priced fruits increase the overall range.
 
 ```{r}
 library(ggplot2)
@@ -381,11 +382,11 @@ There is low variability evident in the histogram and density graph. The graph i
 
 
 
-##Conclusion
-In conclusion, our analysis of fruit affordability in the US over the course of 2022 has shed light on several critical factors influencing one's purchasing decisions in pursuit of a healthy lifestyle. The most common theme throughout our analysis was that we, like many, had severe misconceptions on the reality of how expensive different fruit products are. For example, watermelon was found to be the least expensive fruite. One initially would think that it would be more expensive since it is a seasonally exclusive fruit. Also, fresh fruit was not the most expensive fruit form; frozen was. This implies that consumers must keep in mind different forms of fruit and the types when considering which are most affordable. With this result, we can encourage consumers to purchase fruit juices/watermelon, bananas, or apples when considering the most affordable fruit products.
+## Conclusion
 
-However, we found that fruit yield did not influence the cup equivelance price. So, yield should not play a part in comparing which fruit is more affordable than the other.
+In conclusion, our analysis of fruit affordability in the United States during 2022 highlights several important insights for consumers aiming to maintain a healthy diet on a budget. A key finding is that many common assumptions about fruit prices are inaccurate. For example, watermelon, often perceived as a seasonal luxury, was actually among the least expensive fruits. Similarly, fresh fruit was not always the most costly, as frozen fruit often carried a higher price per cup. These results emphasize the importance of considering both the type and form of fruit when evaluating affordability. Based on our findings, fruits such as watermelon, bananas, apples, and certain fruit juices are among the most budget-friendly options.
 
-With further analysis, it would be interesting to examine how fruit prices change throughout harvest seasons of different fruits. We did not analyze the date of fruits purchased, so it would be something we use to determine if there are changes in affordability of different fruits throughout the seasons.
+Interestingly, we found that fruit yield did not significantly affect the price per cup, suggesting that yield is not a reliable factor when comparing affordability across fruits.
 
+Future analyses could explore how fruit prices fluctuate across harvest seasons, as we did not account for the purchase date in this study. Examining seasonal trends could provide further insight into how consumers can maximize affordability while maintaining a nutritious diet.
 
