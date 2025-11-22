@@ -2,7 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-2025-11-19
+2025-11-21
 
 ## Introduction
 
@@ -476,10 +476,11 @@ correlation
 
     ## [1] -0.04692752
 
-The correlation between the two variables is -0.0469. Since they have a
-negative relationship, it means as yield increases, price per cup tends
-to go down. Therefor, higher-yield fruits are more affordable. Although,
-the number indicates that the correlation is weak.
+The correlation between yield and cup-equivalent price is −0.0469,
+indicating a very weak negative relationship. While the negative sign
+suggests that fruits with higher yields tend to have slightly lower
+cup-equivalent prices, the magnitude is very close to zero, meaning that
+yield explains almost none of the variation in price.
 
 ``` r
 #linear regression model
@@ -506,17 +507,24 @@ summary(model)
     ## Multiple R-squared:  0.002202,   Adjusted R-squared:  -0.01443 
     ## F-statistic: 0.1324 on 1 and 60 DF,  p-value: 0.7172
 
-``` r
-#where is the slope in this? How can I tell?
-```
+The slope of the regression model comes from the row labeled “Yield” in
+the coefficients table. In a linear regression output, each predictor
+has its own row, and the Estimate column provides the slope, which
+represents the predicted change in the response variable for a one-unit
+increase in the predictor. Since Yield is the predictor in this model,
+its estimate of –0.1551 is the slope. This means the model predicts that
+cup-equivalent price decreases by about 0.16 dollars for each one-unit
+increase in yield.
 
-The slope we found was -0.1551. This also proves that the higher the
-yield, the more affordable the fruit gets.While correlation only shows
-the relationship, regression models involves prediction testing. The
-model predicts that the cup-equivilance price will decrease by \$0.16
-every one unit decrease in fruit. However, based on the p-value of
-0.7172 and R-squared of 22%, which is means there is little-to-no
-evidence that our predictions would would have any significance.
+However, the negative slope is not statistically significant. A high
+p-value of 0.7172 indicates that the observed slope could easily be due
+to random variation rather than a true effect. In addition, the model’s
+R squared value is extremely low (0.22 percent), showing that yield
+explains almost none of the variation in cup-equivalent prices. Although
+the slope suggests a slight downward trend, the effect is weak,
+unreliable, and not practically meaningful. Overall, the regression
+analysis demonstrates that yield is not a useful predictor of
+cup-equivalent price.
 
 ``` r
 library(ggplot2)
@@ -536,11 +544,10 @@ ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
 
 ![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
-The correlation between the two variables is -0.0469. This negative
-relationship suggests that as yield increases, the price per cup tends
-to decrease, meaning higher-yield fruits are generally more affordable.
-However, the magnitude of the correlation is very small, indicating that
-the relationship is weak.
+The scatterplot shows a large amount of variability and no clear trend.
+The regression line is nearly flat, which visually supports the
+statistical results: there is no strong relationship between yield and
+price.
 
 ### Question 4: Is there high variability across fruit types in price per cup?
 
@@ -613,15 +620,16 @@ ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
   coord_flip()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-3.png)<!-- --> There is low
-variability evident in the histogram and density graph. The graph is
-slightly bimodal and has three outliers. Here, most fruits cluster from
-0.2-1.75. Although, there is a longer tail. This could indicate that
-consumers have different price access depending on the fruit. To get
-more specific, in the box and whisker plot above, we can see that
-blackberries, raspberries, blueberries, and apercots are the most
-expensive. Also, the graph shows that there are lots of outliers within
-each fruit category, this articulates the high variability?
+![](README_files/figure-gfm/unnamed-chunk-18-3.png)<!-- -->
+
+There is low variability evident in the histogram and density graph. The
+graph is slightly bimodal and has three outliers. Here, most fruits
+cluster from 0.2-1.75. Although, there is a longer tail. This could
+indicate that consumers have different price access depending on the
+fruit. To get more specific, in the box and whisker plot above, we can
+see that blackberries, raspberries, blueberries, and apercots are the
+most expensive. Also, the graph shows that there are lots of outliers
+within each fruit category, this articulates the high variability?
 
 ## Conclusion
 
