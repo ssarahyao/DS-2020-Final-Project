@@ -631,18 +631,19 @@ ggplot(clean, aes(x = Fruit, y = CupEquivalentPrice)) +
   theme(axis.text.y = element_text(size = 11))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- --> , The box
-plots reveal substantial variation in cup-equivalent prices across fruit
-types. Berries such as blackberries and raspberries tend to be among the
-most expensive fruits, showing both higher median prices and wider
-spreads. In contrast, many common fruits including apples, bananas, and
-melons cluster at the lower end of the price range, indicating greater
-affordability and more stable pricing. Some processed or packaged fruit
-categories, such as cherries packed in syrup or water, display
-noticeable outliers, suggesting that preparation method can increase
-price variability. Overall, the box plots show clear price differences
-across fruit types, with certain fruits exhibiting both higher costs and
-greater variation than others.
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+The box plots reveal substantial variation in cup-equivalent prices
+across fruit types. Berries such as blackberries and raspberries tend to
+be among the most expensive fruits, showing both higher median prices
+and wider spreads. In contrast, many common fruits including apples,
+bananas, and melons cluster at the lower end of the price range,
+indicating greater affordability and more stable pricing. Some processed
+or packaged fruit categories, such as cherries packed in syrup or water,
+display noticeable outliers, suggesting that preparation method can
+increase price variability. Overall, the box plots show clear price
+differences across fruit types, with certain fruits exhibiting both
+higher costs and greater variation than others.
 
 Together, these statistics and visualizations indicate that price per
 cup varies considerably across fruit types, which could affect consumer
