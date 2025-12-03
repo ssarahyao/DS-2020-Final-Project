@@ -2,11 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-<<<<<<< HEAD
-2025-11-19
-=======
-2025-11-21
->>>>>>> 349318d6ada701e4cef5e7a94d15ec19fd2bb71e
+2025-12-03
 
 ## Introduction
 
@@ -44,7 +40,7 @@ price, fit a linear regression model, and plot a scatterplot with a
 regression line. This will allow us to determine whether higher-yield
 fruits tend to be more affordable.
 
-**4. Is there high variability across fruit types in price per cup?**
+**4. What is the variability across fruit types in price per cup?**
 
 Summary statistics including variance, standard deviation, range, and
 interquartile range will quantify price variability. A histogram will
@@ -294,34 +290,37 @@ most_expensive_fruits
     ## 4 Pomegranate      1.57
     ## 5 Berries          1.41
 
-Let’s visualize the data with a bar graph. The graph shows all fruits
-and their average cup-equivalent price, grouped by base fruit. Different
-forms of the same fruit are averaged together, so only one bar per base
-fruit is shown.
+Let’s use a stacked bar graph to visualize the prices of each fruit
+across all of its forms, with each form distinguished by color.
 
 ``` r
 library(ggplot2)
 
-# Compute average price per base fruit
-avg_price <- clean %>%
-  group_by(FacetGroup) %>%
-  summarise(AvgPrice = mean(CupEquivalentPrice, na.rm = TRUE)) %>%
-  ungroup() %>%
-  arrange(AvgPrice)
+# Summarize: total price per base fruit × form
+stack_data <- clean %>%
+  group_by(FacetGroup, Form) %>%
+  summarise(TotalPrice = sum(CupEquivalentPrice, na.rm = TRUE), .groups = "drop")
 
-# Plot bar graph
-ggplot(avg_price, aes(x = reorder(FacetGroup, AvgPrice), y = AvgPrice)) +
-  geom_col(fill = "pink") +
-  geom_text(aes(label = round(AvgPrice, 2)), vjust = -0.5, size = 3) +
+# Reorder FacetGroup by total price across all forms
+stack_data <- stack_data %>%
+  group_by(FacetGroup) %>%
+  mutate(GroupTotal = sum(TotalPrice)) %>%
+  ungroup()
+
+ggplot(stack_data,
+       aes(x = reorder(FacetGroup, GroupTotal),
+           y = TotalPrice,
+           fill = Form)) +
+  geom_col() +
   labs(
-    title = "Average Cup-Equivalent Price of Fruits by Base Fruit",
+    title = "Stacked Bar Chart of Fruit Forms by Base Fruit",
     x = "Base Fruit",
-    y = "Average Price per Cup Equivalent ($)"
+    y = "Total Cup-Equivalent Price",
+    fill = "Fruit Form"
   ) +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
-    axis.title = element_text(size = 12),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     plot.title = element_text(size = 14, face = "bold")
   )
 ```
@@ -329,67 +328,23 @@ ggplot(avg_price, aes(x = reorder(FacetGroup, AvgPrice), y = AvgPrice)) +
 ![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Our graph confirms that, based on the average price per cup equivalent,
-watermelon is the cheapest fruit at only \$0.24, while cherries are the
-most expensive at \$2.64.
+watermelon is the cheapest fruit, while cherries are the most expensive.
 
-Watermelon’s low cost makes sense because it is grown in large
-quantities, has a high water content, and is relatively inexpensive to
-harvest and transport during peak season. In contrast, cherries are
-labor intensive to grow and pick, have a short harvest window, and
-require careful handling to avoid bruising, all of which raise their
-price. Additionally, cherries are often more sensitive to weather and
-have higher risks of crop loss, further increasing costs. These
-differences in production, labor demands, and seasonal availability help
-explain why watermelon remains the most affordable fruit per cup
-equivalent, while cherries are the most expensive.
+Watermelon, along with common fruits such as apples and bananas, falls
+toward the lower end of the price range. In contrast, fruits like
+cherries, apricots, and raspberries are more expensive because they are
+labor-intensive to harvest, have short growing seasons, and spoil
+quickly, all of which increase production and handling costs. Their
+sensitivity to weather and high risk of crop loss further raise costs.
+These differences in production scale, labor demands, and seasonal
+constraints explain why watermelon remains the most affordable fruit per
+cup equivalent, while cherries are the most expensive.
 
-If we want to further examine the breakdown of different fruit forms,
-the graph below shows each form for all fruits.
-
-``` r
-library(stringr)
-
-# Define base fruits we care about
-base_fruits <- c("Apples", "Apricots", "Bananas", "Berries", "Blackberries", "Blueberries", "Cantaloupe", "Cherries", "Clementines", "Cranberries", "Dates", "Figs", "Fruit cocktail", "Grapefruit", "Grapes", "Honeydew", "Kiwi", "Mangoes", "Nectarines", "Oranges", "Papaya", "Peaches", "Pears", "Pineapple", "Plum", "Pomegranate", "Raspberries", "Strawberries")
-
-# Create a grouping column for faceting
-clean <- clean %>%
-  mutate(FacetGroup = map_chr(Fruit, ~ {
-    matched <- base_fruits[str_detect(.x, base_fruits)]
-    if(length(matched) > 0) matched[1] else .x
-  }))
-
-# Plot: facet by shared fruit group, keep original names on x-axis
-ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
-  geom_col() +
-  facet_wrap(~ FacetGroup, scales = "fixed") +   # fixed y-axis for all facets
-  geom_text(aes(label = round(CupEquivalentPrice, 2)),
-            position = position_stack(vjust = 0.5), size = 3) +
-  theme_bw() +
-  theme(
-    axis.text.x = element_blank(),      
-    axis.ticks.x = element_blank(),
-    strip.text = element_text(size = 10, face = "bold"),
-    axis.text.y = element_text(size = 10),
-    axis.title = element_text(size = 12),
-    legend.text = element_text(size = 10),
-    legend.title = element_text(size = 11),
-    panel.spacing = unit(1, "lines")
-  ) +
-  labs(
-    title = "Cup-Equivalent Price by Form (Grouped by Base Fruit)",
-    x = "Fruit",
-    y = "Price per Cup Equivalent ($)"
-  )
-```
-
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- --> From this
-graph, we can see that even when considering different fruit forms,
-watermelon, which is only available fresh, remains the cheapest
-(\$0.24), while canned cherries remain the most expensive (\$3.56).
-
-Building on this, we can now analyze how fruit form affects the price
-per cup equivalent.
+Among the more expensive fruits, the canned form generally accounts for
+the majority of their cost, due to processing, packaging, and added
+preservatives. Raspberries are an exception, with their fresh form
+representing most of their price, likely because of their delicate
+nature, short shelf life, and labor-intensive harvesting.
 
 ### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
 
@@ -430,7 +385,11 @@ this pattern for analysis.
 
 ``` r
 # Boxplot comparing price distributions across forms
-ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
+ggplot(clean, aes(
+  x = reorder(Form, CupEquivalentPrice, FUN = median),
+  y = CupEquivalentPrice,
+  fill = reorder(Form, CupEquivalentPrice, FUN = median)
+)) +
   geom_boxplot(outlier.alpha = 0.6) +
   labs(
     title = "Price per Cup Equivalent by Fruit Form",
@@ -445,7 +404,7 @@ ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
   guides(fill = "none")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 The boxplot reveals clear differences in price per cup equivalent across
 fruit forms.
@@ -530,41 +489,35 @@ unreliable, and not practically meaningful. Overall, the regression
 analysis demonstrates that yield is not a useful predictor of
 cup-equivalent price.
 
-The slope we found was -0.1551. This also proves that the higher the
-yield, the more affordable the fruit gets.While correlation only shows
-the relationship, regression models involves prediction testing. The
-model predicts that the cup-equivilance price will decrease by \$0.16
-every one unit decrease in fruit. However, based on the p-value of
-0.7172 and R-squared of 22%, which is means there is little-to-no
-evidence that our predictions would would have any significance.
-
 ``` r
 library(ggplot2)
 
 # Scatterplot of the two variables, containing a regression line
-ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
+ggplot(clean, aes(x = Yield, y = CupEquivalentPrice, color = FacetGroup)) +
   geom_point() +
-  geom_smooth(method = "lm", se = TRUE, color = "red", linewidth = 1) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", linewidth = 1) +
   labs(
     title = "Relationship Between Fruit Yield and Cup-Equivalent Price",
     x = "Yield (fraction edible)",
-    y = "Cup-Equivalent Price ($)"
+    y = "Cup-Equivalent Price ($)",
+    color = "Fruit"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold")
   )
 ```
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- --> The graph
-above supports our residual and correlation testing, showing that there
-is lots of variation. We can conclude with restating that there is a
-very weak relationship between yield and and cup-equivilance price.
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The scatterplot shows a large amount of variability and no clear trend.
 The regression line is nearly flat, which visually supports the
 statistical results: there is no strong relationship between yield and
 price.
 
-### Question 4: Is there high variability across fruit types in price per cup?
+### Question 4: What is the variability across fruit types in price per cup?
 
 ``` r
 # Summary Statistics
@@ -593,18 +546,10 @@ list(
     ## $IQR
     ## [1] 0.714175
 
-<<<<<<< HEAD
-The standard deviation is 0.578, showing that there is little spread
-because it is close to 0. The variance is 0.334, also indicating that
-there is little spread.
-=======
-Summary statistics and visualizations show that fruit prices per cup
-exhibit moderate to high variability. The variance (0.334) and standard
-deviation (0.578) indicate some spread around the mean price. Prices
-range from \$0.24 to \$3.56 per cup, with an interquartile range of
-0.714, meaning the middle 50% of prices are relatively close together,
-though a few high-priced fruits increase the overall range.
->>>>>>> 349318d6ada701e4cef5e7a94d15ec19fd2bb71e
+Summary statistics and visualizations depict the fruit prices per cup
+variability. The variance (0.334) and standard deviation (0.578)
+indicate some spread around the mean price. Prices range from \$0.24 to
+\$3.56 per cup.
 
 ``` r
 library(ggplot2)
@@ -619,7 +564,7 @@ ggplot(clean, aes(x = CupEquivalentPrice)) +
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 ``` r
 # Density Plot
@@ -632,50 +577,8 @@ ggplot(clean, aes(x = CupEquivalentPrice)) +
   )
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
 
-<<<<<<< HEAD
-``` r
-#Histogram
-ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
-  geom_boxplot() + 
-  coord_flip()
-```
-
-![](README_files/figure-gfm/unnamed-chunk-18-3.png)<!-- --> There is low
-variability evident in the histogram and density graph. The graph is
-slightly bimodal and has three outliers. Here, most fruits cluster from
-0.2-1.75. Although, there is a longer tail. This could indicate that
-consumers have different price access depending on the fruit. To get
-more specific, in the box and whisker plot above, we can see that
-blackberries, raspberries, blueberries, and apercots are the most
-expensive. Also, the graph shows that there are lots of outliers within
-each fruit category, this articulates the high variability?
-
-\##Conclusion In conclusion, our analysis of fruit affordability in the
-US over the course of 2022 has shed light on several critical factors
-influencing one’s purchasing decisions in pursuit of a healthy
-lifestyle. The most common theme throughout our analysis was that we,
-like many, had severe misconceptions on the reality of how expensive
-different fruit products are. For example, watermelon was found to be
-the least expensive fruite. One initially would think that it would be
-more expensive since it is a seasonally exclusive fruit. Also, fresh
-fruit was not the most expensive fruit form; frozen was. This implies
-that consumers must keep in mind different forms of fruit and the types
-when considering which are most affordable. With this result, we can
-encourage consumers to purchase fruit juices/watermelon, bananas, or
-apples when considering the most affordable fruit products.
-
-However, we found that fruit yield did not influence the cup equivelance
-price. So, yield should not play a part in comparing which fruit is more
-affordable than the other.
-
-With further analysis, it would be interesting to examine how fruit
-prices change throughout harvest seasons of different fruits. We did not
-analyze the date of fruits purchased, so it would be something we use to
-determine if there are changes in affordability of different fruits
-throughout the seasons.
-=======
 The histogram and density plot show that fruit prices are right-skewed,
 with most fruits clustered at relatively low prices between about \$0.20
 and \$1.75 per cup equivalent. The pronounced peak around \$1.00
@@ -686,27 +589,6 @@ likely reflects specialty, imported, or out-of-season options. This
 distribution indicates that while most fruits are generally affordable,
 access to higher-variety or premium fruits comes at a steeper cost,
 creating meaningful differences in affordability across types.
-
-``` r
-ggplot(clean, aes(x = Fruit, y = CupEquivalentPrice)) +
-  geom_boxplot() +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 11))
-```
-
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
-
-The box plots reveal substantial variation in cup-equivalent prices
-across fruit types. Berries such as blackberries and raspberries tend to
-be among the most expensive fruits, showing both higher median prices
-and wider spreads. In contrast, many common fruits including apples,
-bananas, and melons cluster at the lower end of the price range,
-indicating greater affordability and more stable pricing. Some processed
-or packaged fruit categories, such as cherries packed in syrup or water,
-display noticeable outliers, suggesting that preparation method can
-increase price variability. Overall, the box plots show clear price
-differences across fruit types, with certain fruits exhibiting both
-higher costs and greater variation than others.
 
 Together, these statistics and visualizations indicate that price per
 cup varies considerably across fruit types, which could affect consumer
@@ -720,9 +602,9 @@ about nutritious eating on a budget. First, affordability varies widely
 across fruit types, with most fruits clustering around 1.00 dollars per
 cup equivalent but a long tail of higher priced fruits, particularly
 berries and cherries, driving substantial variability. Watermelon stands
-out as the most affordable option at just 0.24 dollars per cup, while
-cherries are the most expensive, reflecting differences in seasonality,
-labor intensity, and handling requirements.
+out as the most affordable option, while cherries are the most
+expensive, reflecting differences in seasonality, labor intensity, and
+handling requirements.
 
 Our investigation into fruit forms shows that processing plays a
 significant role in pricing. Contrary to the expectation that fresh
@@ -744,9 +626,8 @@ affordability.
 Finally, the substantial variability across fruit types suggests that
 while many fruits are accessible at low cost, others remain
 significantly more expensive, which may limit consumer access to certain
-varieties. Future research incorporating seasonal pricing or regional
-differences could provide a more comprehensive understanding of
-affordability throughout the year. Examining seasonal trends could
-provide further insight into how consumers can maximize affordability
-while maintaining a nutritious diet.
->>>>>>> 349318d6ada701e4cef5e7a94d15ec19fd2bb71e
+varieties. Future research incorporating different years, allowing for
+more comparison, could help identify consistent patterns in fruit
+pricing over time. Examining seasonal trends could provide further
+insight into how consumers can maximize affordability while maintaining
+a nutritious diet.
