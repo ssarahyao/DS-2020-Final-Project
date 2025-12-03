@@ -318,7 +318,7 @@ However, the negative slope is not statistically significant. A high p-value of 
 library(ggplot2)
 
 # Scatterplot of the two variables, containing a regression line
-ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
+ggplot(clean, aes(x = Yield, y = CupEquivalentPrice, col=Fruit)) +
   geom_point() +
   geom_smooth(method = "lm", se = TRUE, color = "red", linewidth = 1) +
   labs(
