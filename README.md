@@ -549,7 +549,7 @@ The regression line is nearly flat, which visually supports the
 statistical results: there is no strong relationship between yield and
 price.
 
-### Question 4: Is there high variability across fruit types in price per cup?
+### Question 4: What is the variability across fruit types in price per cup?
 
 ``` r
 # Summary Statistics
@@ -578,12 +578,10 @@ list(
     ## $IQR
     ## [1] 0.714175
 
-Summary statistics and visualizations show that fruit prices per cup
-exhibit moderate to high variability. The variance (0.334) and standard
-deviation (0.578) indicate some spread around the mean price. Prices
-range from \$0.24 to \$3.56 per cup, with an interquartile range of
-0.714, meaning the middle 50% of prices are relatively close together,
-though a few high-priced fruits increase the overall range.
+Summary statistics and visualizations depict the fruit prices per cup
+variability. The variance (0.334) and standard deviation (0.578)
+indicate some spread around the mean price. Prices range from \$0.24 to
+\$3.56 per cup.
 
 ``` r
 library(ggplot2)
