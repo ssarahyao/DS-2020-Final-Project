@@ -2,7 +2,7 @@ Affordability of Fresh Fruits in the U.S. in 2022: A Cup-Equivalent
 Price Analysis
 ================
 Sarah Yao, Isabel Lange
-2025-11-18
+2025-11-19
 
 ## Introduction
 
@@ -510,6 +510,14 @@ summary(model)
 #where is the slope in this? How can I tell?
 ```
 
+The slope we found was -0.1551. This also proves that the higher the
+yield, the more affordable the fruit gets.While correlation only shows
+the relationship, regression models involves prediction testing. The
+model predicts that the cup-equivilance price will decrease by \$0.16
+every one unit decrease in fruit. However, based on the p-value of
+0.7172 and R-squared of 22%, which is means there is little-to-no
+evidence that our predictions would would have any significance.
+
 ``` r
 library(ggplot2)
 
@@ -526,7 +534,10 @@ ggplot(clean, aes(x = Yield, y = CupEquivalentPrice)) +
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- --> The graph
+above supports our residual and correlation testing, showing that there
+is lots of variation. We can conclude with restating that there is a
+very weak relationship between yield and and cup-equivilance price.
 
 ### Question 4: Is there high variability across fruit types in price per cup?
 
@@ -557,6 +568,10 @@ list(
     ## $IQR
     ## [1] 0.714175
 
+The standard deviation is 0.578, showing that there is little spread
+because it is close to 0. The variance is 0.334, also indicating that
+there is little spread.
+
 ``` r
 library(ggplot2)
 
@@ -584,3 +599,44 @@ ggplot(clean, aes(x = CupEquivalentPrice)) +
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-18-2.png)<!-- -->
+
+``` r
+#Histogram
+ggplot(data = clean, aes(x = Fruit, y = CupEquivalentPrice)) +
+  geom_boxplot() + 
+  coord_flip()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-18-3.png)<!-- --> There is low
+variability evident in the histogram and density graph. The graph is
+slightly bimodal and has three outliers. Here, most fruits cluster from
+0.2-1.75. Although, there is a longer tail. This could indicate that
+consumers have different price access depending on the fruit. To get
+more specific, in the box and whisker plot above, we can see that
+blackberries, raspberries, blueberries, and apercots are the most
+expensive. Also, the graph shows that there are lots of outliers within
+each fruit category, this articulates the high variability?
+
+\##Conclusion In conclusion, our analysis of fruit affordability in the
+US over the course of 2022 has shed light on several critical factors
+influencing one’s purchasing decisions in pursuit of a healthy
+lifestyle. The most common theme throughout our analysis was that we,
+like many, had severe misconceptions on the reality of how expensive
+different fruit products are. For example, watermelon was found to be
+the least expensive fruite. One initially would think that it would be
+more expensive since it is a seasonally exclusive fruit. Also, fresh
+fruit was not the most expensive fruit form; frozen was. This implies
+that consumers must keep in mind different forms of fruit and the types
+when considering which are most affordable. With this result, we can
+encourage consumers to purchase fruit juices/watermelon, bananas, or
+apples when considering the most affordable fruit products.
+
+However, we found that fruit yield did not influence the cup equivelance
+price. So, yield should not play a part in comparing which fruit is more
+affordable than the other.
+
+With further analysis, it would be interesting to examine how fruit
+prices change throughout harvest seasons of different fruits. We did not
+analyze the date of fruits purchased, so it would be something we use to
+determine if there are changes in affordability of different fruits
+throughout the seasons.
