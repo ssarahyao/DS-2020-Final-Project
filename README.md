@@ -328,16 +328,18 @@ Our graph confirms that, based on the average price per cup equivalent,
 watermelon is the cheapest fruit at only \$0.24, while cherries are the
 most expensive at \$2.64.
 
-Watermelon’s low cost makes sense because it is grown in large
-quantities, has a high water content, and is relatively inexpensive to
-harvest and transport during peak season. In contrast, cherries are
-labor intensive to grow and pick, have a short harvest window, and
+Watermelon’s low cost stems from large-scale production, high water
+content, and relatively inexpensive harvesting and transportation during
+peak season. Many common fruits—such as apples and bananas—also fall
+toward the lower end of the price range. In contrast, cherries are
+labor-intensive to grow and pick, have a short harvest window, and
 require careful handling to avoid bruising, all of which raise their
-price. Additionally, cherries are often more sensitive to weather and
-have higher risks of crop loss, further increasing costs. These
-differences in production, labor demands, and seasonal availability help
-explain why watermelon remains the most affordable fruit per cup
-equivalent, while cherries are the most expensive.
+price. Their sensitivity to weather and high risk of crop loss further
+drives up cost. Similarly, berries like blackberries and raspberries
+tend to rank among the most expensive fruits. These differences in
+production scale, labor demands, and seasonal constraints explain why
+watermelon remains the most affordable fruit per cup equivalent, while
+cherries are the most expensive.
 
 If we want to further examine the breakdown of different fruit forms,
 the graph below shows each form for all fruits.
@@ -426,7 +428,8 @@ this pattern for analysis.
 
 ``` r
 # Boxplot comparing price distributions across forms
-ggplot(clean, aes(x = Form, y = CupEquivalentPrice, fill = Form)) +
+ggplot(clean, aes(x = reorder(Form, CupEquivalentPrice, FUN = median),
+                  y = CupEquivalentPrice, fill = Form)) +
   geom_boxplot(outlier.alpha = 0.6) +
   labs(
     title = "Price per Cup Equivalent by Fruit Form",
@@ -621,27 +624,6 @@ likely reflects specialty, imported, or out-of-season options. This
 distribution indicates that while most fruits are generally affordable,
 access to higher-variety or premium fruits comes at a steeper cost,
 creating meaningful differences in affordability across types.
-
-``` r
-ggplot(clean, aes(x = Fruit, y = CupEquivalentPrice)) +
-  geom_boxplot() +
-  coord_flip() +
-  theme(axis.text.y = element_text(size = 11))
-```
-
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
-
-The box plots reveal substantial variation in cup-equivalent prices
-across fruit types. Berries such as blackberries and raspberries tend to
-be among the most expensive fruits, showing both higher median prices
-and wider spreads. In contrast, many common fruits including apples,
-bananas, and melons cluster at the lower end of the price range,
-indicating greater affordability and more stable pricing. Some processed
-or packaged fruit categories, such as cherries packed in syrup or water,
-display noticeable outliers, suggesting that preparation method can
-increase price variability. Overall, the box plots show clear price
-differences across fruit types, with certain fruits exhibiting both
-higher costs and greater variation than others.
 
 Together, these statistics and visualizations indicate that price per
 cup varies considerably across fruit types, which could affect consumer
