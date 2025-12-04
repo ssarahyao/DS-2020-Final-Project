@@ -24,7 +24,7 @@ cheapest and most expensive fruits. A bar chart will visualize all
 fruits ranked by price, colored by fruit form, to contextualize
 affordability in terms of nutrition.
 
-**2. How does fruit form (fresh vs. processed) affect price per cup?**
+**2. How does fruit form affect price per cup?**
 
 By grouping the data by form (Fresh, Dried, Canned, Frozen, Juice), we
 will compute mean, median, and standard deviation of cup-equivalent
@@ -346,7 +346,7 @@ preservatives. Raspberries are an exception, with their fresh form
 representing most of their price, likely because of their delicate
 nature, short shelf life, and labor-intensive harvesting.
 
-### Question 2: How does fruit form (fresh vs. processed) affect price per cup?
+### Question 2: How does fruit form affect price per cup?
 
 To examine the price distribution of fruits across their different
 forms, we group the data by fruit form and compute the mean, median, and
